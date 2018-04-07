@@ -1,6 +1,4 @@
-<<<<<<<<<<<Remote Code Publisher - CSE 687 OOD Project 4>>>>>>>>>>>>>>
-
-
+<<<<<<<<<<<Remote Code Publisher>>>>>>>>>>>>>
 
 Note - All the files ( DepAnal.xml, compile.bat, run.bat, serverSourceCodeRepo - containing source code files uploaded to server,
 Repositry - contaning server published files ) are present in Project Root/Home Location.
