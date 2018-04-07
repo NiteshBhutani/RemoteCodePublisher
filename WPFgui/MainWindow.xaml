@@ -1,0 +1,70 @@
+﻿<Window x:Class="WPFgui.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFgui"
+        mc:Ignorable="d"
+        Title="Remote Code Repository" Height="500" Width="1050" Loaded="Window_Loaded">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="74*" />
+            <ColumnDefinition Width="74*" />
+            <ColumnDefinition Width="74*" />
+            <ColumnDefinition Width="74*" />
+            <ColumnDefinition Width="74*" />
+            <ColumnDefinition Width="74*"/>
+            <ColumnDefinition Width="74*" />
+            <ColumnDefinition Width="74*" />
+            <ColumnDefinition Width="50*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="2.5*" />
+            <RowDefinition Height="2.5*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Server Source Code Repo" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold" FontSize="12" Margin="9,15,0,15" Height="16" Width="145" ></TextBlock>
+        <TextBlock Grid.Row="0"  Grid.Column="3" Grid.ColumnSpan="2" Text="Server Published Code Repo" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold" FontSize="12" Margin="51,20,0,16" Height="16" Width="160" ></TextBlock>
+        <TreeView Name="CodeFiles"   Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" 
+                  Grid.ColumnSpan="3" Margin="8,0,64,0">
+        </TreeView>
+        <TreeView Name="PublishFiles" Grid.RowSpan="2" Grid.Column="3" Grid.ColumnSpan="3" Margin="48,2,14,2" Grid.Row="1">
+        </TreeView>
+        <Button Grid.Row="1" Grid.Column="2"  Content="Refresh Left" Height="40" HorizontalAlignment="Center" Width="90"
+                Name="RefButton1" VerticalAlignment="Bottom"  Click="RefButton1_Click" Margin="68,0,80,52" Grid.ColumnSpan="2" />
+        <Button Grid.Row="1" Grid.Column="2"  Content="Refresh Right" Height="47" HorizontalAlignment="Center" Width="88"
+                Name="RefButton2" VerticalAlignment="Center"  Click="RefButton2_Click" Margin="70,102,82,111" Grid.RowSpan="2" Grid.ColumnSpan="2" >
+        </Button>
+
+        <TextBlock Grid.Row="4" Grid.Column="0" Grid.RowSpan="1" Text="Folder Name" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold" 
+                   FontSize="12" Margin="16,8,0,28" Height="16" Width="76" />
+
+        <TextBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="6" Height="32" Width="703"  HorizontalAlignment="Left" Margin="6,10,0,0" Name="FileNameTextBox"
+                 VerticalAlignment="Top" />
+
+        <TextBox Grid.Row="4" Grid.ColumnSpan="2" Height="30" Width="111"  HorizontalAlignment="Left" Margin="99,8,0,0" Name="FolderNameTxtBox"
+                 VerticalAlignment="Top" Grid.RowSpan="1" RenderTransformOrigin="0.153,0.397" />
+        <CheckBox Grid.Row="3" Grid.Column="7" Name="SelectFolder" Margin="0,13,9,7" HorizontalAlignment="Right" Width="92">Select Folder</CheckBox>
+        <Button Grid.Row="3" Grid.Column="6" Content="Upload" Height="32" HorizontalAlignment="Center" Width="103"
+                Name="browseButton" VerticalAlignment="Center"  Click="uploadButton_Click" Margin="14,10,3,10" RenderTransformOrigin="0.5,0.5" />
+        <Button Grid.Row="2" Grid.Column="2" Content="Publish" Height="38" HorizontalAlignment="Center" Width="90"
+                Name="publishButton" VerticalAlignment="Center"  Click="publishButton_Click" Margin="70,49,80,43" Grid.ColumnSpan="2" />
+        <Button Grid.Row="4" Grid.Column="7" Content="Download" Height="34" HorizontalAlignment="Center" Width="108"
+                Name="downloadButton" VerticalAlignment="Center"  Click="downloadButton_Click" Margin="78,6,16,12" Grid.ColumnSpan="2" />
+        <Button Grid.Row="4" Grid.Column="1" Content="Create Folder" Height="30" HorizontalAlignment="Center" Width="85"
+            x:Name="CreateFolderButton" VerticalAlignment="Center"  Click="createFolderButton_Click" Margin="105,8,50,14" Grid.ColumnSpan="2" />
+        <TreeView x:Name="PublishFiles_Client" Grid.RowSpan="2" Grid.Column="6" Grid.ColumnSpan="3" Margin="2,0,16,4" Grid.Row="1"/>
+        <TextBlock Grid.Row="0"  Grid.Column="6" Grid.ColumnSpan="2" Text="Client Published Code Repo" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold" FontSize="12" Margin="7,22,0,14" Height="16" Width="160" />
+        <TextBox Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="4" Height="32" Width="340"  HorizontalAlignment="Left" Margin="86,6,0,0" x:Name="DownloadFolderTxtBox"
+            VerticalAlignment="Top" />
+        <TextBlock Grid.Row="4" Grid.Column="3" Grid.RowSpan="1" Text="Download Directory " VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold" 
+            FontSize="12" Margin="84,8,0,22" Height="22" Width="116" Grid.ColumnSpan="2" />
+        <Button Grid.Row="4" Grid.Column="2" Content="Remove File" Height="30" HorizontalAlignment="Center" Width="94"
+            x:Name="removeFile" VerticalAlignment="Center"  Click="removeFile_click" Margin="86,8,60,14" Grid.ColumnSpan="2" />
+    </Grid>
+</Window>

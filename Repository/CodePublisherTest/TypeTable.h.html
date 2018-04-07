@@ -1,0 +1,53 @@
+<html><head>  <link rel="stylesheet" href="CSS\style.css">  <script src="CSS\script.js"></script></head><body>  <h3>TypeTable.h</h3>  <hr />  <div class="indent">    <h4>Dependencies:</h4>    <a href = "TypeTable.cpp.html">TypeTable.cpp</a> 
+  </div>  <hr /><pre>#pragma once
+
+#include &ltstring&gt
+#include &ltunordered_map&gt
+#include &ltsstream&gt
+#include &ltvector&gt
+#include &ltiomanip&gt
+#include &ltiostream&gt
+
+///////////////////////////////////
+//  Data to be stored in Typetable
+//
+struct typeInfo<button onclick="toogleDiv('struct_typeInfo');"> + </button>	<div id = "struct_typeInfo">  {
+
+public: 
+	using  Type = std::string;
+	using Name = std::string;
+	using FQN = std::string;
+	using Location = std::string;
+
+	Type typeName_;     // TypeName
+	Name name_;    // Name
+	FQN fQN_;    // Fully Qualified Name
+	Location location_;  // Location
+	std::string show();
+
+};</div>
+
+class TypeTable<button onclick="toogleDiv('class_TypeTable');"> + </button>	<div id = "class_TypeTable">  {
+	
+	using Record = typeInfo;
+	using Records = std::vector&ltRecord&gt;
+	using  Type = std::string;
+	using Name = std::string;
+	using Namespace = std::string;
+	using Location = std::string;
+
+public:
+	void add(const Type& type, const Name& name, const Location& location, const Namespace& fqn);
+	Record& operator[](int n);
+	Record operator[](int n) const;
+	Records FindName(const Name& name);
+	Records FindType(const Type& type);
+	Records FindNamespace(const Namespace& nameSpace); 
+	std::string containFQN(const Namespace& fqn);
+	Records FindLocation(const Location& Location);
+	Records GetRecords() { return _records; }
+	std::string printTable();
+private:
+	Records _records;
+};</div>
+</pre></body></html>

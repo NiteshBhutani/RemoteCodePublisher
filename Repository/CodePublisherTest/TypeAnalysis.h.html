@@ -1,0 +1,122 @@
+<html><head>  <link rel="stylesheet" href="CSS\style.css">  <script src="CSS\script.js"></script></head><body>  <h3>TypeAnalysis.h</h3>  <hr />  <div class="indent">    <h4>Dependencies:</h4>    <a href = "TypeTable.h.html">TypeTable.h</a> 
+  </div>  <hr /><pre>#pragma once
+/////////////////////////////////////////////////////////////////////////
+// TypeAnalysis.h -  //
+//                                                                     //
+// Nitesh Bhutani, CSE687 - Object Oriented Design, Spring 2017           //
+/////////////////////////////////////////////////////////////////////////
+/*
+* You need to provide all the manual and maintenance informnation
+*/
+
+#include "../Parser/ActionsAndRules.h"
+#include "../TypeTable/TypeTable.h"
+#include "../AbstractSyntaxTree/AbstrSynTree.h"
+#include &ltiostream&gt
+#include &ltfunctional&gt
+#include &ltvector&gt
+#pragma warning (disable : 4101)  // disable warning re unused variable x, below
+
+namespace TypeAnal
+{
+	using namespace CodeAnalysis;
+	struct contextInfo<button onclick="toogleDiv('struct_contextInfo');"> + </button>	<div id = "struct_contextInfo">  {
+		std::string _type;
+		std::string _typeName;
+		int _level;
+		contextInfo(std::string type, std::string typeName, int level) : _type(type), _typeName(typeName), _level(level) {}
+	};</div>
+
+	class TypeAnalysis
+<button onclick="toogleDiv('class_TypeAnalysis');"> + </button>	<div id = "class_TypeAnalysis"> 	{
+	public:
+		using SPtr = std::shared_ptr&ltASTNode*&gt;
+
+		TypeAnalysis();
+		void doTypeAnal();
+		void printTypeTable();
+		TypeTable returnTypeTable() { return typetable_; }
+	private:
+		void DFS(ASTNode* pNode, int treeLevel);
+		AbstrSynTree& ASTref_;
+		ScopeStack&ltASTNode*&gt scopeStack_;
+		std::vector&ltcontextInfo&gt contextStack;
+		Scanner::Toker& toker_;
+		TypeTable typetable_;// instance of Type Table to store Types
+	};</div>
+
+	inline TypeAnalysis::TypeAnalysis() :
+		ASTref_(Repository::getInstance()-&gtAST()),
+		scopeStack_(Repository::getInstance()-&gtscopeStack()),
+		toker_(*(Repository::getInstance()-&gtToker()))
+	{
+		//std::function&ltvoid()&gt test = [] { int x; };  // This is here to test detection of lambdas.
+	}                                              // It doesn't do anything useful for dep anal.
+
+	inline bool doDisplay_(ASTNode* pNode)
+<button onclick="toogleDiv('function_doDisplay_');"> + </button>	<div id = "function_doDisplay_"> 	{
+		static std::string toDisplay[] = {
+			"function", "lambda", "class", "struct", "enum", "alias", "typedef"
+		};
+		for (std::string type : toDisplay)
+		{
+			if (pNode-&gttype_ == type)
+				return true;
+		}
+		return false;
+	}</div>
+
+	inline void TypeAnalysis::DFS(ASTNode* pNode, int treeLevel)
+<button onclick="toogleDiv('function_DFS');"> + </button>	<div id = "function_DFS"> 	{
+		static std::string path = "";
+		std::string fqn = "";
+		if (pNode-&gtpath_ != path)
+		{
+			path = pNode-&gtpath_;
+		}
+		while (contextStack.size() &gt 1 && treeLevel &lt= contextStack.back()._level) {
+			contextStack.pop_back();
+		}
+		contextInfo cI(pNode-&gttype_, pNode-&gtname_, treeLevel);
+
+		if ((pNode-&gttype_ == "function" || pNode-&gttype_ == "lambda" )&&
+			(contextStack.back()._type == "function" || contextStack.back()._type == "class" || contextStack.back()._type == "struct"))
+		{	//do Nothing
+		}else {
+			contextStack.push_back(cI);
+			//Getting Fully Qualified Name
+			if (contextStack.size() &gt 1) {
+				for (auto it = contextStack.begin() + 1; it != contextStack.end(); ++it) {
+					fqn += it-&gt_typeName;
+					fqn += "::";
+				}
+			}
+			std::string fqn_ = fqn.substr(0, fqn.length() - 2);
+			//Push the element into type table
+			if (doDisplay_(pNode)) {
+				//std::cout &lt&lt "\n ( Type: " &lt&lt pNode-&gttype_ &lt&lt " , typeName: " &lt&lt pNode-&gtname_ &lt&lt " , Fqn " &lt&lt fqn_ &lt&lt " )";
+				typetable_.add(pNode-&gttype_, pNode-&gtname_, pNode-&gtpath_, fqn_);
+			}
+		}
+		for (auto pChild : pNode-&gtchildren_)
+		{
+			treeLevel++;
+			DFS(pChild, treeLevel);
+			treeLevel--;
+		}
+	}</div>
+
+	inline void TypeAnalysis::doTypeAnal()
+<button onclick="toogleDiv('function_doTypeAnal');"> + </button>	<div id = "function_doTypeAnal"> 	{
+		std::cout &lt&lt "\n  starting type analysis:\n";
+		//std::cout &lt&lt "\n  scanning AST and displaying Type Table:";
+		std::cout &lt&lt "\n -----------------------------------------------";
+		ASTNode* pRoot = ASTref_.root();
+		DFS(pRoot, 0);
+	}</div>
+
+	inline void TypeAnalysis::printTypeTable()<button onclick="toogleDiv('function_printTypeTable');"> + </button>	<div id = "function_printTypeTable">  {
+		std::cout&lt&lttypetable_.printTable();
+	}</div>
+}
+</pre></body></html>

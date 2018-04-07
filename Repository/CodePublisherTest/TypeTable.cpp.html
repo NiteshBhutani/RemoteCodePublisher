@@ -1,0 +1,209 @@
+<html><head>  <link rel="stylesheet" href="CSS\style.css">  <script src="CSS\script.js"></script></head><body>  <h3>TypeTable.cpp</h3>  <hr />  <div class="indent">    <h4>Dependencies:</h4>    <a href = "TypeTable.h.html">TypeTable.h</a> 
+<a href = "TypeAnalysis.h.html">TypeAnalysis.h</a> 
+  </div>  <hr /><pre>#include "TypeTable.h"
+
+using Record = typeInfo;
+using Records = std::vector&ltRecord&gt;
+using  Type = std::string;
+using Name = std::string;
+using Namespace = std::string;
+using Location = std::string;
+
+void TypeTable::add(const Type& type, const Name& name, const Location& location, const Namespace& fqn)<button onclick="toogleDiv('function_add');"> + </button>	<div id = "function_add">  {
+	Record r;
+	r.name_ = name;
+	r.fQN_ = fqn;
+	r.location_ = location;
+	r.typeName_ = type;
+
+	_records.push_back(r);
+}</div>
+
+std::string typeInfo::show()<button onclick="toogleDiv('function_show');"> + </button>	<div id = "function_show">  {
+	std::ostringstream out;
+	out.setf(std::ios::adjustfield, std::ios::left);
+	out &lt&lt "\n    " &lt&lt std::setw(8) &lt&lt "Type" &lt&lt " : " &lt&lt typeName_;
+	out &lt&lt "\n    " &lt&lt std::setw(8) &lt&lt "Name" &lt&lt " : " &lt&lt name_;
+	out &lt&lt "\n    " &lt&lt std::setw(8) &lt&lt "Fully Qualified Name" &lt&lt " : " &lt&lt fQN_;
+	out &lt&lt "\n    " &lt&lt std::setw(8) &lt&lt "Location" &lt&lt " : " &lt&lt location_;
+	out &lt&lt "\n";
+	return out.str();
+
+}</div>
+Record& TypeTable::operator[](int n) {
+	if (n &lt 0 || n &gt= int(_records.size()))  std::cout &lt&lt "Invalid Arguments";
+	return _records[n];
+
+}
+Record TypeTable::operator[](int n) const<button onclick="toogleDiv('function_operator[]');"> + </button>	<div id = "function_operator[]">  {
+	if (n &lt 0 || n &gt= int(_records.size()))  std::cout &lt&lt "Invalid Arguments";
+	return _records[n];
+
+}</div>
+Records TypeTable::FindName(const Name& name)<button onclick="toogleDiv('function_FindName');"> + </button>	<div id = "function_FindName">  {
+	Records RecordwithName;
+	auto iter = _records.begin();
+	while (iter != _records.end()) {
+		if (iter-&gtname_ == name) {
+			RecordwithName.push_back(*(iter));
+		}
+		iter++;
+	}
+	return RecordwithName;
+}</div>
+Records TypeTable::FindType(const Type& type)<button onclick="toogleDiv('function_FindType');"> + </button>	<div id = "function_FindType">  {
+	Records Recordwithtype;
+	auto iter = _records.begin();
+	while (iter != _records.end()) {
+		if (iter-&gttypeName_ == type) {
+			Recordwithtype.push_back(*(iter));
+		}
+		iter++;
+	}
+	return Recordwithtype;
+}</div>
+
+/*******&lt	Function to spilt string based on Deliminter	&gt*****/
+void split(const std::string& s, std::string c,
+	std::vector&ltstd::string&gt& v)<button onclick="toogleDiv('function_split');"> + </button>	<div id = "function_split">  {
+	std::string::size_type i = 0;
+	std::string::size_type j = s.find(c);
+	while (j != std::string::npos) {
+		v.push_back(s.substr(i, j - i));
+		i = j + c.size();
+		j = j + 1;
+		j = s.find(c, j);
+		if (j == std::string::npos)
+			v.push_back(s.substr(i, s.length()));
+	}
+}</div>
+Records TypeTable::FindNamespace(const Namespace& nameSpace)<button onclick="toogleDiv('function_FindNamespace');"> + </button>	<div id = "function_FindNamespace">  {
+	std::string nameSpace_;
+	Records RecordwithNamespace;
+	auto iter = _records.begin();
+	while (iter != _records.end()) {
+		nameSpace_ = "";
+		std::vector&ltstd::string&gt v;
+		split(iter-&gtfQN_, "::", v);
+		
+		for (int i = 0; i &lt int(v.size())-1; ++i) {
+			nameSpace_ += v[i];
+		}
+		if (nameSpace_ == nameSpace) {
+			RecordwithNamespace.push_back(*(iter));
+		}
+		iter++;
+	}
+	return RecordwithNamespace;
+}</div>
+Records TypeTable::FindLocation(const Location& location)<button onclick="toogleDiv('function_FindLocation');"> + </button>	<div id = "function_FindLocation">  {
+	Records RecordwithLocation;
+	auto iter = _records.begin();
+	while (iter != _records.end()) {
+		if (iter-&gtlocation_ == location) {
+			RecordwithLocation.push_back(*(iter));
+		}
+		iter++;
+	}
+	return RecordwithLocation;
+}</div>
+std::string TypeTable::containFQN(const Namespace& fqn)<button onclick="toogleDiv('function_containFQN');"> + </button>	<div id = "function_containFQN">  {
+	auto iter = _records.begin();
+	while (iter != _records.end()) {
+		std::string typeName;
+		if (iter-&gtfQN_.find("::") != std::string::npos) {
+			std::vector&ltstd::string&gt v;
+			split(iter-&gtfQN_, "::", v);
+			typeName = v.back();
+			//std::cout&lt&lt
+		}
+		else {
+			typeName = iter-&gtfQN_;
+		}
+		if (fqn.find(typeName) != std::string::npos) {
+			return iter-&gtlocation_;
+		}
+		iter++;
+	}
+	return "";
+}</div>
+
+
+std::string TypeTable::printTable()<button onclick="toogleDiv('function_printTable');"> + </button>	<div id = "function_printTable">  {
+
+	std::ostringstream out;
+	out.setf(std::ios::adjustfield, std::ios::left);
+	for (Record rec : _records) {
+		out &lt&lt "\n    " &lt&lt std::setw(8) &lt&lt rec.show();
+		out &lt&lt "\n    " &lt&lt std::setw(8) &lt&lt "*****************************" ;
+	}
+	return out.str();
+}</div>
+
+//test stub
+#ifdef TEST_TYPETABLE
+int main()<button onclick="toogleDiv('function_main');"> + </button>	<div id = "function_main"> 
+{
+	
+	TypeTable* tt = new TypeTable();
+	
+	tt-&gtadd("struct", "contextInfo", "C:\\Users\\Nitesh\\Documents\\Visual Studio 2015\\Projects\\CodeAnalysis\\Analyzer\\DepAnal.h\\DepAnal.h" , "CodeAnalysis::contextInfo ");
+	tt-&gtadd("class", "TypeAnal", "C:\\Users\\Nitesh\\Documents\\Visual Studio 2015\\Projects\\CodeAnalysis\\Analyzer\\DepAnal.h\\DepAnal.h", "CodeAnalysis::TypeAnal ");
+	tt-&gtadd("function", "doDisplay", "C:\\Users\\Nitesh\\Documents\\Visual Studio 2015\\Projects\\CodeAnalysis\\Analyzer\\DepAnal.h\\DepAnal.h", "CodeAnalysis::doDisplay ");
+	tt-&gtadd("alias", "Sptr", "C:\\Users\\Nitesh\\Documents\\Visual Studio 2015\\Projects\\CodeAnalysis\\Analyzer\\DepAnal.h\\DepAnal.h", "CodeAnalysis::Sptr ");
+	tt-&gtadd("enum", "Enum1", "C:\\Users\\Nitesh\\Documents\\Visual Studio 2015\\Projects\\CodeAnalysis\\Analyzer\\DepAnal.h\\DepAnal.h", "CodeAnalysis::Enum1 ");
+	tt-&gtadd("function", "func1", "C:\\Users\\Nitesh\\Documents\\Visual Studio 2015\\Projects\\CodeAnalysis\\Analyzer\\Executive.cpp\\Executive.cpp", "AnalFileMgr::func1 ");
+	tt-&gtadd("function", "func2", "C:\\Users\\Nitesh\\Documents\\Visual Studio 2015\\Projects\\CodeAnalysis\\Analyzer\\Executive.cpp\\Executive.cpp", "AnalFileMgr::func2 ");
+	tt-&gtadd("function", "func3", "C:\\Users\\Nitesh\\Documents\\Visual Studio 2015\\Projects\\CodeAnalysis\\Analyzer\\Executive.cpp\\Executive.cpp", "AnalFileMgr::func3 ");
+	tt-&gtadd("function", "main", "C:\\Users\\Nitesh\\Documents\\Visual Studio 2015\\Projects\\CodeAnalysis\\Analyzer\\Executive.h\\Executive.h", "AnalFileMgr::main ");
+	tt-&gtadd("class", "AnalFileMgr", "C:\\Users\\Nitesh\\Documents\\Visual Studio 2015\\Projects\\CodeAnalysis\\Analyzer\\Executive.h\\Executive.h", "AnalFileMgr::AnalFileMngr ");
+	tt-&gtadd("struct", "TypeAnal", "C:\\Users\\Nitesh\\Documents\\Visual Studio 2015\\Projects\\CodeAnalysis\\Analyzer\\Executive.h\\Executive.h", "AnalFileMgr::TypeAnal ");
+
+	std::cout &lt&lt "\n Getting the First Record : " &lt&lt (*tt)[0].show();
+	std::cout &lt&lt "\n =================================================================================================";
+
+	std::cout &lt&lt "\n Getting the Records with specific NameSpace : " ;
+	Records records = tt-&gtFindNamespace("CodeAnalysis");
+	for (Record r : records)
+	{
+		std::cout &lt&lt r.show();
+		std::cout &lt&lt "\n -----------------------------------------------";
+	}
+	std::cout &lt&lt "\n =================================================================================================";
+
+	
+	std::cout &lt&lt "\n Getting the Records with specific Location : ";
+	records = tt-&gtFindLocation("C:\\Users\\Nitesh\\Documents\\Visual Studio 2015\\Projects\\CodeAnalysis\\Analyzer\\DepAnal.h\\DepAnal.h");
+	for (Record r : records)
+	{
+		std::cout &lt&lt r.show();
+		std::cout &lt&lt "\n -----------------------------------------------";
+	}
+	std::cout &lt&lt "\n =================================================================================================";
+
+	std::cout &lt&lt "\n Getting the Records with specific Name : ";
+	records = tt-&gtFindName("contextInfo");
+	for (Record r : records)
+	{
+		std::cout &lt&lt r.show();
+		std::cout &lt&lt "\n -----------------------------------------------";
+	}
+
+	std::cout &lt&lt "\n =================================================================================================";
+
+	std::cout &lt&lt "\n Getting the Records with specific Type : ";
+	records = tt-&gtFindType("function");
+	for (Record r : records)
+	{
+		std::cout &lt&lt r.show();
+		std::cout &lt&lt "\n -----------------------------------------------";
+	}
+	std::cout &lt&lt "\n =================================================================================================";
+
+	std::cout&lt&lt "\n Printing the Table :"&lt&lttt-&gtprintTable();
+	std::cout &lt&lt "\n";
+	return 0;</div>
+}
+
+#endif
+</pre></body></html>

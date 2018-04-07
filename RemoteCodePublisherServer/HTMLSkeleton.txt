@@ -1,0 +1,18 @@
+<html>
+<head>
+  <link rel="stylesheet" href="{{CSSPATH}}">
+  <script src="{{JSPATH}}"></script>
+</head>
+<body>
+  <h3>{{FILEHEADING}}</h3>
+  <hr />
+  <div class="indent">
+    <h4>Dependencies:</h4>
+    {{DEPENDENCYLINKS}}
+  </div>
+  <hr />
+<pre>
+{{SOURCECODE}}
+</pre>
+</body>
+</html>

@@ -1,0 +1,49 @@
+
+  <DB>
+    <Element>
+      <Data>
+        C:\Users\Nitesh\Documents\Visual Studio 2015\Projects\RemoteCodePublisher\serverSourceCodeRepo\CodePublisherTest\TypeTable.h
+      </Data>
+      <Children>
+        <Child>
+          C:\Users\Nitesh\Documents\Visual Studio 2015\Projects\RemoteCodePublisher\serverSourceCodeRepo\CodePublisherTest\TypeTable.cpp
+        </Child>
+      </Children>
+    </Element>
+    <Element>
+      <Data>
+        C:\Users\Nitesh\Documents\Visual Studio 2015\Projects\RemoteCodePublisher\serverSourceCodeRepo\CodePublisherTest\TypeAnalysis\TypeAnalysis.h
+      </Data>
+      <Children>
+        <Child>
+          C:\Users\Nitesh\Documents\Visual Studio 2015\Projects\RemoteCodePublisher\serverSourceCodeRepo\CodePublisherTest\TypeTable.h
+        </Child>
+      </Children>
+    </Element>
+    <Element>
+      <Data>
+        C:\Users\Nitesh\Documents\Visual Studio 2015\Projects\RemoteCodePublisher\serverSourceCodeRepo\CodePublisherTest\TypeTable.cpp
+      </Data>
+      <Children>
+        <Child>
+          C:\Users\Nitesh\Documents\Visual Studio 2015\Projects\RemoteCodePublisher\serverSourceCodeRepo\CodePublisherTest\TypeTable.h
+        </Child>
+        <Child>
+          C:\Users\Nitesh\Documents\Visual Studio 2015\Projects\RemoteCodePublisher\serverSourceCodeRepo\CodePublisherTest\TypeAnalysis\TypeAnalysis.h
+        </Child>
+      </Children>
+    </Element>
+    <Element>
+      <Data>
+        C:\Users\Nitesh\Documents\Visual Studio 2015\Projects\RemoteCodePublisher\serverSourceCodeRepo\CodePublisherTest\TypeAnalysis\TypeAnalysis.cpp
+      </Data>
+      <Children>
+        <Child>
+          C:\Users\Nitesh\Documents\Visual Studio 2015\Projects\RemoteCodePublisher\serverSourceCodeRepo\CodePublisherTest\TypeAnalysis\TypeAnalysis.h
+        </Child>
+        <Child>
+          C:\Users\Nitesh\Documents\Visual Studio 2015\Projects\RemoteCodePublisher\serverSourceCodeRepo\CodePublisherTest\TypeTable.cpp
+        </Child>
+      </Children>
+    </Element>
+  </DB>
